@@ -1,0 +1,2 @@
+1- Guardar en base de datos lo que se recoja en pantalla.
+   -Distinguir cada campo para poder recuperarlo

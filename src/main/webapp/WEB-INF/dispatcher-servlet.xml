@@ -1,0 +1,77 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="
+	http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+	http://www.springframework.org/schema/context
+	http://www.springframework.org/schema/context/spring-context-3.0.xsd
+	http://www.springframework.org/schema/mvc
+	http://www.springframework.org/schema/mvc/spring-mvc.xsd
+       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+       <!-- Configures the @Controller programming model -->
+       <mvc:annotation-driven/>
+
+
+       <!-- internacionalizacion -->
+       <bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+         <property name="basename" value="classpath:messages"/>
+         <property name="defaultEncoding" value="UTF-8"/>
+       </bean>
+       
+      <bean id="localeResolver" class="org.springframework.web.servlet.i18n.SessionLocaleResolver">
+         <property name="defaultLocale" value="es"/>
+       </bean>
+
+
+<!-- obtencion de locale a traves del request del usuario (accept-language HTTP HEADER) -->
+<!-- 	   <bean id="localeResolver" class="org.springframework.web.servlet.i18n.AcceptHeaderLocaleResolver"> -->
+<!--        </bean> -->
+       
+       <mvc:interceptors>
+       		<bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">
+       			<property name="paramName" value="locale"/>
+       		</bean>
+       </mvc:interceptors>  
+              
+       <!-- fin-internacionalizacion -->
+       
+	<!-- establecemos ubicacion de los controladores -->
+	<context:component-scan base-package="com.rvidal.curriculumweb.controller" />
+<mvc:resources mapping="/resources/images/**" location="/resources/images/" />
+	 <mvc:resources mapping="/resources/css/**" location="/resources/css/" />
+	 	 <mvc:resources mapping="/resources/js/**" location="/resources/js/" />
+	 	 <mvc:resources mapping="/resources/font/**" location="/resources/font/" />
+	 	 
+
+<!--     <bean id="filterMultipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver"> -->
+<!--         <property name="maxUploadSize" value="100000000" /> -->
+<!--     </bean> -->
+
+	
+	<bean
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix">
+			<value>/WEB-INF/views/</value>
+		</property>
+		<property name="suffix">
+			<value>.jsp</value>
+		</property>
+	</bean>
+	
+
+    <!-- enabling annotation driven configuration /-->
+    <context:annotation-config/>
+ 
+
+    <tx:annotation-driven transaction-manager="transactionManager"/>
+
+    <!-- Scans the classpath of this application for @Components to deploy as beans -->
+    <context:component-scan base-package="com.rvidal.curriculumweb.*" />
+    
+
+</beans>
